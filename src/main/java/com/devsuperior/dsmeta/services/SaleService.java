@@ -3,12 +3,12 @@ package com.devsuperior.dsmeta.services;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import com.devsuperior.dsmeta.dto.SaleDTO;
+import com.devsuperior.dsmeta.dto.ReportDTO;
+import com.devsuperior.dsmeta.dto.SummaryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class SaleService {
@@ -31,7 +30,22 @@ public class SaleService {
 		return new SaleMinDTO(entity);
 	}
 
-	public Page<SaleDTO> searchReports(String maxDate, String minDate, String name, Pageable pageable) {
+	public Page<ReportDTO> searchReports(String maxDate, String minDate, String name, Pageable pageable) {
+
+		List<LocalDate> dates = formatDates(maxDate, minDate);
+
+		return repository.findSalesByFilter(dates.get(0), dates.get(1), name, pageable);
+
+	}
+
+	public List<SummaryDTO> searchSummary(String maxDate, String minDate) {
+		List<LocalDate> dates = formatDates(maxDate, minDate);
+
+		return repository.findSummaryByFilter(dates.get(0), dates.get(1));
+	}
+
+	private List<LocalDate> formatDates(String maxDate, String minDate) {
+		List<LocalDate> dates = new ArrayList<>();
 		LocalDate endDate;
 		LocalDate startDate;
 
@@ -47,7 +61,9 @@ public class SaleService {
 			startDate = endDate.minusYears(1);
 		}
 
-		return repository.findSalesByFilter(endDate, startDate, name, pageable);
+		dates.add(endDate);
+		dates.add(startDate);
 
+		return dates;
 	}
 }
