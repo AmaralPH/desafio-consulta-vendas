@@ -20,8 +20,8 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "JOIN s.seller se " +
             "WHERE s.date BETWEEN :startDate AND :endDate " +
             "AND UPPER(se.name) LIKE UPPER(CONCAT('%', :name, '%'))")
-    Page<ReportDTO> findSalesByFilter(@Param("endDate") LocalDate endDate,
-                                      @Param("startDate") LocalDate startDate,
+    Page<ReportDTO> findSalesByFilter(@Param("startDate") LocalDate startDate,
+                                      @Param("endDate") LocalDate endDate,
                                       @Param("name") String name,
                                       Pageable pageable);
 
@@ -30,6 +30,6 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "JOIN se.sales s " +
             "WHERE s.date BETWEEN :startDate AND :endDate " +
             "GROUP BY se.name")
-    List<SummaryDTO> findSummaryByFilter(@Param("endDate") LocalDate endDate,
-                                         @Param("startDate") LocalDate startDate);
+    List<SummaryDTO> findSummaryByFilter(@Param("startDate") LocalDate startDate,
+                                         @Param("endDate") LocalDate endDate);
 }

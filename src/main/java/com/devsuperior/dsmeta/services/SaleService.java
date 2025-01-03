@@ -30,9 +30,9 @@ public class SaleService {
 		return new SaleMinDTO(entity);
 	}
 
-	public Page<ReportDTO> searchReports(String maxDate, String minDate, String name, Pageable pageable) {
+	public Page<ReportDTO> searchReports(String minDate, String maxDate, String name, Pageable pageable) {
 
-		List<LocalDate> dates = formatDates(maxDate, minDate);
+		List<LocalDate> dates = formatDates(minDate, maxDate);
 
 		return repository.findSalesByFilter(dates.get(0), dates.get(1), name, pageable);
 
@@ -44,7 +44,7 @@ public class SaleService {
 		return repository.findSummaryByFilter(dates.get(0), dates.get(1));
 	}
 
-	private List<LocalDate> formatDates(String maxDate, String minDate) {
+	private List<LocalDate> formatDates( String minDate, String maxDate) {
 		List<LocalDate> dates = new ArrayList<>();
 		LocalDate endDate;
 		LocalDate startDate;
@@ -61,8 +61,8 @@ public class SaleService {
 			startDate = endDate.minusYears(1);
 		}
 
-		dates.add(endDate);
 		dates.add(startDate);
+		dates.add(endDate);
 
 		return dates;
 	}
