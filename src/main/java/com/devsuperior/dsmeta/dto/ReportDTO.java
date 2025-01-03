@@ -1,30 +1,27 @@
 package com.devsuperior.dsmeta.dto;
 
 import com.devsuperior.dsmeta.entities.Sale;
-import com.devsuperior.dsmeta.entities.Seller;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
-public class SaleDTO {
+public class Report {
     private Long id;
     private Double amount;
     private LocalDate date;
 
     private String sellerName;
 
-    public SaleDTO() {
+    public Report() {
     }
 
-    public SaleDTO(Long id, LocalDate date, Double amount, String sellerName) {
+    public Report(Long id, LocalDate date, Double amount, String sellerName) {
         this.id = id;
         this.amount = amount;
         this.date = date;
         this.sellerName = sellerName;
     }
 
-    public SaleDTO(Sale entity) {
+    public Report(Sale entity) {
         id = entity.getId();
         amount = entity.getAmount();
         date = entity.getDate();
