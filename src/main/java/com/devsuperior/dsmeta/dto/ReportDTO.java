@@ -4,24 +4,24 @@ import com.devsuperior.dsmeta.entities.Sale;
 
 import java.time.LocalDate;
 
-public class Report {
+public class ReportDTO {
     private Long id;
     private Double amount;
     private LocalDate date;
 
     private String sellerName;
 
-    public Report() {
+    public ReportDTO() {
     }
 
-    public Report(Long id, LocalDate date, Double amount, String sellerName) {
+    public ReportDTO(Long id, LocalDate date, Double amount, String sellerName) {
         this.id = id;
         this.amount = amount;
         this.date = date;
         this.sellerName = sellerName;
     }
 
-    public Report(Sale entity) {
+    public ReportDTO(Sale entity) {
         id = entity.getId();
         amount = entity.getAmount();
         date = entity.getDate();
